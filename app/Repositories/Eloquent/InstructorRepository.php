@@ -17,4 +17,21 @@ class InstructorRepository  implements InstructorRepositoryInterface
         }
         return $instructor;
     }
+
+    public function findByEmail($email)
+    {
+        try {
+            return $instructor = Instructor::where('email', $email)->get();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function updateByEmail($email, $data)
+    {
+        try {
+            return Instructor::where('email', $email)->update($data);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

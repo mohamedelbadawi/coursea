@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InstructorForgetPasswordRequest;
 use App\Http\Requests\InstructorLoginRequest;
 use App\Http\Requests\InstructorRegisterRequest;
+use App\Http\Requests\InstructorResetPasswordRequest;
 use App\Services\AuthService;
+use Exception;
 use Illuminate\Http\Request;
 
 class InstructorController extends Controller
@@ -34,5 +37,38 @@ class InstructorController extends Controller
     {
         $data = $request->only(['email', 'password']);
         return   $this->authService->instructorLogin($data);
+    }
+
+    public function forgetPasswordPage()
+    {
+        return view('auth.instructor_forgetPassword');
+    }
+
+    public function  resetPasswordLink(InstructorForgetPasswordRequest $request)
+
+    {
+        try {
+            $data = $request->only(['email']);
+            return  $this->authService->instructorResetPasswordLink($data);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function resetPasswordPage(Request $request)
+    {
+        $token = $request->token;
+        $email = $request->email;
+
+        return view('auth.instructor_resetPassword', compact('token', 'email'));
+    }
+
+
+    public function resetPassword(InstructorResetPasswordRequest $request)
+    {
+        $data['email'] = $request->email;
+        $data['password'] = $request->password;
+        $data['token'] = $request->token;
+        return $this->authService->instructorResetPassword($data);
     }
 }

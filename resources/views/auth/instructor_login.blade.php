@@ -17,6 +17,8 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/forms/theme-checkbox-radio.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/forms/switches.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/elements/alert.css') }}">
+
 </head>
 
 <body class="form">
@@ -69,7 +71,8 @@
                                 <div id="password-field" class="field-wrapper input mb-2">
                                     <div class="d-flex justify-content-between">
                                         <label for="password">PASSWORD</label>
-                                        <a href="auth_pass_recovery_boxed.html" class="forgot-pass-link">Forgot
+                                        <a href="{{ route('instructor.forgetPassword_page') }}"
+                                            class="forgot-pass-link">Forgot
                                             Password?</a>
                                     </div>
 
@@ -97,6 +100,17 @@
 
                                         </small>
                                     @enderror
+                                    @if (session()->has('success'))
+                                        <div class="alert alert-light-success border-0 mt-1" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-label="Close"><svg> ... </svg></button>
+                                            {{ session()->get('success') }}
+                                            </button>
+                                        </div>
+                                    @endif
+
+
+
                                 </div>
 
 

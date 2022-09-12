@@ -30,4 +30,8 @@ Route::group(['prefix' => '/instructor'], function () {
     Route::post('/register', [InstructorController::class, 'register'])->name('instructor.register');
     Route::get('/login', [InstructorController::class, 'loginPage'])->name('instructor.login_page');
     Route::post('/login', [InstructorController::class, 'login'])->name('instructor.login');
+    Route::get('/forgetPassword', [InstructorController::class, 'forgetPasswordPage'])->name('instructor.forgetPassword_page');
+    Route::get('/resetPassword', [InstructorController::class, 'resetPasswordPage'])->name('instructor.resetPassword_page');
+    Route::post('/resetPassword-link', [InstructorController::class, 'resetPasswordLink'])->name('instructor.resetPassword_link');
+    Route::post('/resetPassword', [InstructorController::class, 'resetPassword'])->name('instructor.resetPassword');
 });

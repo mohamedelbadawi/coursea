@@ -27,7 +27,7 @@ class AuthService
     {
         try {
             if (Auth::guard('instructor')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                return redirect()->intended(route('instructor.home'));
+                return redirect()->intended(route('instructor.dashboard'));
             }
             return redirect()->back()->withErrors(['password' => 'this data do not match our data']);
         } catch (Exception $e) {
@@ -43,7 +43,7 @@ class AuthService
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        return redirect()->route('instructor.home');
+        return redirect()->route('instructor.dashboard');
     }
 
     public function instructorResetPasswordLink(array $data)

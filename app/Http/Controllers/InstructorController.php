@@ -6,16 +6,29 @@ use App\Http\Requests\InstructorForgetPasswordRequest;
 use App\Http\Requests\InstructorLoginRequest;
 use App\Http\Requests\InstructorRegisterRequest;
 use App\Http\Requests\InstructorResetPasswordRequest;
+use App\Http\Requests\updateInstructorProfileSettingsRequest;
+use App\Models\Instructor;
+use App\Models\Media;
+use App\Repositories\InstructorRepositoryInterface;
 use App\Services\AuthService;
+use App\traits\MediaTrait;
 use Exception;
 use Illuminate\Http\Request;
 
 class InstructorController extends Controller
 {
-    private $authService;
-    public function __construct(AuthService $authService)
+    use MediaTrait;
+    private $authService, $instructorRepository;
+
+    public function __construct(AuthService $authService, InstructorRepositoryInterface $instructorRepository)
     {
         $this->authService = $authService;
+        $this->instructorRepository = $instructorRepository;
+    }
+
+    public function dashboard()
+    {
+        return view('instructor.dashboard');
     }
     public function registerPage()
     {
@@ -70,5 +83,38 @@ class InstructorController extends Controller
         $data['password'] = $request->password;
         $data['token'] = $request->token;
         return $this->authService->instructorResetPassword($data);
+    }
+
+    public function instructorProfile(Instructor $instructor)
+    {
+        $skills = explode(',', $instructor->skills);
+
+        return view('instructor.profile', compact('instructor', 'skills'));
+    }
+
+    public function instructorProfileSettings(Instructor $instructor)
+    {
+        $skills = explode(',', $instructor->skills);
+        return view('instructor.profile_settings', compact('instructor', 'skills'));
+    }
+
+    public function updateInstructorProfileSettings(updateInstructorProfileSettingsRequest $request, Instructor $instructor)
+    {
+
+
+        if ($request->has('image')) {
+            if ($instructor->media) {
+
+                $this->deleteImage('images/instructors/' . $instructor->media->name);
+                $instructor->media->delete();
+            }
+            $image = $this->uploadImage($request->image, 'images/instructors/', 2000, $request->name);
+
+            Media::create(['name' => $image, 'type' => 'image', 'medial_type' => Instructor::class, 'medial_id' => $instructor->id]);
+            $data = $request->except('token', 'image');
+        }
+        $data = $request->except('token');
+        $this->instructorRepository->update($instructor, $data);
+        return redirect()->route('instructor.profile', $instructor->id);
     }
 }

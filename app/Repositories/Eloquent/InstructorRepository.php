@@ -34,4 +34,13 @@ class InstructorRepository  implements InstructorRepositoryInterface
             return $e->getMessage();
         }
     }
+
+    public function update(Instructor $instructor, array $data)
+    {
+        try {
+            return  $instructor->update($data);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

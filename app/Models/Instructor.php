@@ -9,6 +9,11 @@ use Illuminate\Notifications\Notifiable;
 
 class Instructor extends Authenticatable
 {
-    use HasFactory,Notifiable;
+    use HasFactory, Notifiable;
     protected $guarded = [];
+
+    public function media()
+    {
+        return $this->morphOne(Media::class, 'medial');
+    }
 }

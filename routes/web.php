@@ -23,9 +23,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => '/instructor'], function () {
-    Route::get('/home', function () {
-        return ('home');
-    })->name('instructor.home');
+
     Route::get('/register', [InstructorController::class, 'registerPage'])->name('instructor.register_page');
     Route::post('/register', [InstructorController::class, 'register'])->name('instructor.register');
     Route::get('/login', [InstructorController::class, 'loginPage'])->name('instructor.login_page');
@@ -34,4 +32,12 @@ Route::group(['prefix' => '/instructor'], function () {
     Route::get('/resetPassword', [InstructorController::class, 'resetPasswordPage'])->name('instructor.resetPassword_page');
     Route::post('/resetPassword-link', [InstructorController::class, 'resetPasswordLink'])->name('instructor.resetPassword_link');
     Route::post('/resetPassword', [InstructorController::class, 'resetPassword'])->name('instructor.resetPassword');
+
+    Route::group(['middleware' => 'auth:instructor'], function () {
+
+        Route::get('/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
+        Route::get('/profile/{instructor}', [InstructorController::class, 'instructorProfile'])->name('instructor.profile');
+        Route::get('/profile-settings/{instructor}', [InstructorController::class, 'instructorProfileSettings'])->name('instructor.profile_settings');
+        Route::post('/profile-settings/{instructor}/update', [InstructorController::class, 'updateInstructorProfileSettings'])->name('instructor.update.profile_settings');
+    });
 });

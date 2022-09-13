@@ -26,10 +26,7 @@ class InstructorController extends Controller
         $this->instructorRepository = $instructorRepository;
     }
 
-    public function dashboard()
-    {
-        return view('instructor.dashboard');
-    }
+
     public function registerPage()
     {
         return view('auth.instructor_register');

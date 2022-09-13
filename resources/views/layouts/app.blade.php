@@ -15,6 +15,7 @@
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/elements/alert.css')}}">
 
     <style class="light-theme">
         .widget-one-content-area {
@@ -77,7 +78,7 @@
 
             <div class="nav-logo align-self-center">
                 <a class="navbar-brand" href="index.html"><img alt="logo" src="{{ asset('assets/img/90x90.jpg') }}">
-                    <span class="navbar-brand-name">CORK</span></a>
+                    <span class="navbar-brand-name">Coursea</span></a>
             </div>
 
             <ul class="navbar-item topbar-navigation">

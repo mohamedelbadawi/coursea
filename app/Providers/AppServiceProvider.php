@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Http\Requests\InstructorRegisterRequest;
+use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\CourseRepositoryInterface;
+use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\CourseRepository;
 use App\Repositories\Eloquent\InstructorRepository;
 use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\InstructorRepositoryInterface;
@@ -20,8 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(EloquentRepositoryInterface::class, RepositoryInterface::class);
         $this->app->bind(InstructorRepositoryInterface::class, InstructorRepository::class);
+        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->bind(CourseRepositoryInterface::class, CourseRepository::class);
     }
 
     /**

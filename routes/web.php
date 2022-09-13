@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\InstructorDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,9 +37,10 @@ Route::group(['prefix' => '/instructor'], function () {
 
     Route::group(['middleware' => 'auth:instructor'], function () {
 
-        Route::get('/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
+        Route::get('/dashboard', [InstructorDashboardController::class, 'dashboard'])->name('instructor.dashboard');
         Route::get('/profile/{instructor}', [InstructorController::class, 'instructorProfile'])->name('instructor.profile');
         Route::get('/profile-settings/{instructor}', [InstructorController::class, 'instructorProfileSettings'])->name('instructor.profile_settings');
         Route::post('/profile-settings/{instructor}/update', [InstructorController::class, 'updateInstructorProfileSettings'])->name('instructor.update.profile_settings');
+        Route::post('/course/add/{instructor}', [CourseController::class, 'addNewCourse'])->name('instructor.add_course');
     });
 });

@@ -16,4 +16,9 @@ class Instructor extends Authenticatable
     {
         return $this->morphOne(Media::class, 'medial');
     }
+
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'notable');
+    }
 }

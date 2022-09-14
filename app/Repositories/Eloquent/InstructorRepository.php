@@ -8,20 +8,24 @@ use Exception;
 
 class InstructorRepository  implements InstructorRepositoryInterface
 {
+    private $model;
+    public function __construct(Instructor $model)
+    {
+        $this->model = $model;
+    }
     public function create(array $attributes)
     {
         try {
-            $instructor = Instructor::create($attributes);
+            return $this->model->create($attributes);
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        return $instructor;
     }
 
     public function findByEmail($email)
     {
         try {
-            return $instructor = Instructor::where('email', $email)->get();
+            return $this->model->where('email', $email)->get();
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -29,7 +33,7 @@ class InstructorRepository  implements InstructorRepositoryInterface
     public function updateByEmail($email, $data)
     {
         try {
-            return Instructor::where('email', $email)->update($data);
+            return $this->model->where('email', $email)->update($data);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -42,5 +46,11 @@ class InstructorRepository  implements InstructorRepositoryInterface
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function notes($id)
+    {
+        $instructor = Instructor::findOrFail($id);
+        return $instructor->notes;
     }
 }

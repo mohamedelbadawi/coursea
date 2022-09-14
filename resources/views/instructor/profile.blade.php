@@ -32,7 +32,7 @@
                         @endif
                     </div>
                     <div class="text-center user-info">
-                        <img src="@if ($instructor->media->name){{ asset('images/instructors/'. $instructor->media->name) }} @else{{ asset('assets/img/90x90.jpg')}}@endif"
+                        <img src="@if (isset($instructor->media->name)){{ asset('images/instructors/'. $instructor->media->name) }} @else{{ asset('assets/img/90x90.jpg')}}@endif"
                             style="height: 90px; width:90px;" alt="avatar">
                         <p class="">{{ $instructor->name }}</p>
                     </div>

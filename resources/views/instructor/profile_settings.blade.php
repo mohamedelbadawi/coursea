@@ -31,7 +31,7 @@
                                                     <div class="upload mt-4 pr-md-4">
                                                         <input type="file" id="input-file-max-fs" name="image"
                                                             class="dropify"
-                                                            data-default-file="@if ($instructor->media->name){{ asset('images/instructors/'. $instructor->media->name) }}@else{{ asset('assets/img/90x90.jpg')}}@endif"
+                                                            data-default-file="@if (isset($instructor->media->name)) {{ asset('images/instructors/' . $instructor->media->name) }}@else{{ asset('assets/img/90x90.jpg') }} @endif"
                                                             data-max-file-size="2M" />
                                                         <p class="mt-2"><i class="flaticon-cloud-upload mr-1"></i> Upload
                                                             Picture</p>
@@ -357,15 +357,23 @@
     <script src="{{ asset('assets/js/users/account-settings.js') }}"></script>
     <script src="{{ asset('plugins/tagInput/tags-input.js') }}"></script>
     <script>
+        $("form").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
         var instance = new TagsInput({
             selector: 'skill-input'
         });
+
         var data = [
             @foreach ($skills as $skill)
                 ["{{ $skill }}"],
             @endforeach
         ];
 
-        instance.addData(data)
+        if (data.length > 0 && data[0] != '') {
+            instance.addData(data)
+        }
     </script>
 @endsection

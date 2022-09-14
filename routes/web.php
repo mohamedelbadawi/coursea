@@ -3,6 +3,7 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorDashboardController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,4 +44,10 @@ Route::group(['prefix' => '/instructor'], function () {
         Route::post('/profile-settings/{instructor}/update', [InstructorController::class, 'updateInstructorProfileSettings'])->name('instructor.update.profile_settings');
         Route::post('/course/add/{instructor}', [CourseController::class, 'addNewCourse'])->name('instructor.add_course');
     });
+});
+
+Route::group(['middleware' => ['auth:instructor']], function () {
+
+    Route::post('/addNote', [NoteController::class, 'addNewNote'])->name('note.add');
+    Route::get('/deleteNote/{id}', [NoteController::class, 'deleteNote'])->name('note.delete');
 });

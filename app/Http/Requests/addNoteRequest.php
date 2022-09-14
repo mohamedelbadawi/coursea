@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class addNewCourseRequest extends FormRequest
+class addNoteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,8 @@ class addNewCourseRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'category_id' => 'required',
             'description' => 'required|string',
-            'price' => 'required|numeric',
-            'header_image' => 'sometimes|mimes:jpeg,jpg,png,gif|max:2000'
+            'tag' => 'required'
         ];
     }
 }

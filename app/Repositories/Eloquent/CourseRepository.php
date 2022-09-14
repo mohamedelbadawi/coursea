@@ -8,12 +8,20 @@ use Exception;
 
 class CourseRepository implements CourseRepositoryInterface
 {
+    protected $model;
+    public function __construct(Course $model)
+    {
+        $this->model = $model;
+    }
+
     public function create(array $data)
     {
-        try {
-            return  $course = Course::create($data);
-        } catch (Exception $e) {
-            return back()->with(['error' => $e->getMessage()]);
-        }
+
+        return  $this->model->create($data);
+    }
+
+    public function getInstructorCoursesById($id)
+    {
+        return $this->model->where('instructor_id', $id)->with(['category'])->get();
     }
 }

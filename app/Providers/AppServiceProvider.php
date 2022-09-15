@@ -8,10 +8,18 @@ use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\CourseRepository;
 use App\Repositories\Eloquent\InstructorRepository;
+use App\Repositories\Eloquent\LessonRepository as EloquentLessonRepository;
+use App\Repositories\Eloquent\MediaRepository as EloquentMediaRepository;
 use App\Repositories\Eloquent\NoteRepository;
+use App\Repositories\Eloquent\SectionRepository;
 use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\InstructorRepositoryInterface;
+use App\Repositories\LessonRepository;
+use App\Repositories\LessonRepositoryInterface;
+use App\Repositories\MediaRepository;
+use App\Repositories\MediaRepositoryInterface;
 use App\Repositories\NoteRepositoryInterface;
+use App\Repositories\SectionRepositoryInterface;
 use App\Services\AuthService;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Auth\EloquentUserProvider;
@@ -30,6 +38,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(CourseRepositoryInterface::class, CourseRepository::class);
         $this->app->bind(NoteRepositoryInterface::class, NoteRepository::class);
+        $this->app->bind(SectionRepositoryInterface::class, SectionRepository::class);
+        $this->app->bind(LessonRepositoryInterface::class, EloquentLessonRepository::class);
+        $this->app->bind(MediaRepositoryInterface::class, EloquentMediaRepository::class);
     }
 
     /**

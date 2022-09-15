@@ -53,4 +53,10 @@ class InstructorRepository  implements InstructorRepositoryInterface
         $instructor = Instructor::findOrFail($id);
         return $instructor->notes;
     }
+
+    public function courses($id)
+    {
+        $instructor = Instructor::findOrFail($id);
+        return $this->model->courses;
+    }
 }

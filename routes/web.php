@@ -3,7 +3,9 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorDashboardController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +44,15 @@ Route::group(['prefix' => '/instructor'], function () {
         Route::get('/profile/{instructor}', [InstructorController::class, 'instructorProfile'])->name('instructor.profile');
         Route::get('/profile-settings/{instructor}', [InstructorController::class, 'instructorProfileSettings'])->name('instructor.profile_settings');
         Route::post('/profile-settings/{instructor}/update', [InstructorController::class, 'updateInstructorProfileSettings'])->name('instructor.update.profile_settings');
+        Route::get('/courses', [InstructorDashboardController::class, 'coursesPage'])->name('instructor.courses_page');
         Route::post('/course/add/{instructor}', [CourseController::class, 'addNewCourse'])->name('instructor.add_course');
+        Route::get('/courses/course/{course}', [InstructorDashboardController::class, 'viewCourse'])->name('instructor.view_course');
+        Route::post('/courses/{course}/add-section', [SectionController::class, 'addSection'])->name('instructor.add_section');
+        Route::put('/courses/update-section/{section}', [SectionController::class, 'updateSection'])->name('instructor.update_section');
+        Route::get('/courses/reorder-sections', [SectionController::class, 'reorderSections'])->name('instructor.reorder_sections');
+        Route::get('/courses/reorder-lessons', [LessonController::class, 'reorderLessons'])->name('instructor.reorder_lessons');
+
+        Route::post('/course/add-lesson/', [LessonController::class, 'addLesson'])->name('instructor.upload_lesson');
     });
 });
 

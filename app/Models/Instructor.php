@@ -21,4 +21,9 @@ class Instructor extends Authenticatable
     {
         return $this->morphMany(Note::class, 'notable');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\InstructorRepositoryInterface;
@@ -20,13 +21,23 @@ class InstructorDashboardController extends Controller
 
     public function dashboard()
     {
-        $categories = $this->categoryRepository->all();
+
         $noteTypes = $this->noteRepository->noteTypes();
-        $notes = $this->instructorRepository->notes(auth()->id());
-        return view('instructor.dashboard', compact('categories', 'noteTypes', 'notes'));
+        $notes = auth()->user()->notes;
+        return view('instructor.dashboard', compact('noteTypes', 'notes'));
     }
-    public function noteFilter($tag)
+    public function coursesPage()
     {
-        
+        $courses = auth()->user()->courses;
+        $categories = $this->categoryRepository->all();
+        return view('instructor.courses', compact('categories', 'courses'));
+    }
+
+
+    public function viewCourse(Course $course)
+    {
+
+        $sections = $course->sections()->with(['lessons'])->get()->sortBy('order');
+        return view('instructor.singleCourse', compact('course', 'sections'));
     }
 }

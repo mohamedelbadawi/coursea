@@ -20,7 +20,7 @@ class CourseController extends Controller
     }
     public function addNewCourse(addNewCourseRequest $request, Instructor $instructor)
     {
-        // dd($request->header_image);
+
         try {
             $data = $request->except('token');
             $data['instructor_id'] = $instructor->id;

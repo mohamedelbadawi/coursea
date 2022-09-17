@@ -24,4 +24,28 @@ class CourseRepository implements CourseRepositoryInterface
     {
         return $this->model->where('instructor_id', $id)->with(['category'])->get();
     }
+
+    public function count()
+    {
+        return $this->model->count();
+    }
+
+    public function paginate($number)
+    {
+        return $this->model->paginate($number);
+    }
+    public function with(array $relations)
+    {
+        return $this->model->with($relations);
+    }
+    public function getById($id)
+    {
+
+        return $this->model->where('id', $id);
+    }
+
+    public function getCoursesByCategory($category_id, $num)
+    {
+        return $this->model->where('category_id', $category_id)->take($num);
+    }
 }

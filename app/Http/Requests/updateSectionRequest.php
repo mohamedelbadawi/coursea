@@ -13,6 +13,8 @@ class updateSectionRequest extends FormRequest
      */
     public function authorize()
     {
+        // dd("hello");
+        // if($this->request->section)
         return true;
     }
 

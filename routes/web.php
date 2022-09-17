@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorDashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentDashboardController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Intervention\Image\Gd\Commands\RotateCommand;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +23,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
+Route::get('/courses', [HomeController::class, 'courses'])->name('courses_page');
+Route::get('/courses/course/{course}', [HomeController::class, 'viewCourse'])->name('course.view');
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 
 Route::group(['prefix' => '/instructor'], function () {
 
@@ -53,6 +61,7 @@ Route::group(['prefix' => '/instructor'], function () {
         Route::get('/courses/reorder-lessons', [LessonController::class, 'reorderLessons'])->name('instructor.reorder_lessons');
 
         Route::post('/course/add-lesson/', [LessonController::class, 'addLesson'])->name('instructor.upload_lesson');
+        Route::post('/course/update-lesson/{id}', [LessonController::class, 'updateLesson'])->name('instructor.update_lesson');
     });
 });
 
@@ -60,4 +69,9 @@ Route::group(['middleware' => ['auth:instructor']], function () {
 
     Route::post('/addNote', [NoteController::class, 'addNewNote'])->name('note.add');
     Route::get('/deleteNote/{id}', [NoteController::class, 'deleteNote'])->name('note.delete');
+});
+
+
+Route::prefix('student')->middleware('auth')->group(function () {
+    Route::get('/home', [StudentDashboardController::class, 'index'])->name('student.dashboard');
 });

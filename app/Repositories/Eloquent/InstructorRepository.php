@@ -21,7 +21,10 @@ class InstructorRepository  implements InstructorRepositoryInterface
             return $e->getMessage();
         }
     }
-
+    public function count()
+    {
+        return $this->model->count();
+    }
     public function findByEmail($email)
     {
         try {

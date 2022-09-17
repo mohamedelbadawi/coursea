@@ -126,7 +126,10 @@
                                 <div role="menu" class="collapsed text-light d-flex justify-content-between"
                                     data-toggle="collapse" data-target="#defaultAccordion-{{ $loop->index }}"
                                     aria-expanded="true" aria-controls="defaultAccordion-{{ $loop->index }}">
-                                    {{ $section->title }}
+                                    <strong style="cursor: move">:::</strong>
+                                    <h4 class="text-light">
+                                        {{ $section->title }}
+                                    </h4>
                                     <div class="">
                                         <button class="btn btn-success" data-toggle="modal"
                                             data-target="#editSection-{{ $section->id }}">Edit</button>
@@ -202,8 +205,8 @@
                         </div>
                         {{-- end lesson modal --}}
 
-                        <div id="{{ $loop->index }}" class="" aria-labelledby="..."
-                            data-parent="#toggleAccordion">
+                        <div id="defaultAccordion-{{ $loop->index }}" class="collapse" aria-labelledby="..."
+                            data-parent="#sections">
                             <div class="card-header m-2 d-flex justify-content-end">
                                 <button class="btn btn-primary" data-toggle="modal"
                                     data-target="#addLessonModal-{{ $section->id }}">Add
@@ -212,10 +215,27 @@
 
                             <div class="card-body" id="lessons-{{ $section->id }}">
                                 @foreach ($section->lessons->sortBy('order') as $lesson)
-                                    <div class="card" data-key="{{ $lesson->id }}">
-                                        <div class="card-body">
-                                            {{ $lesson->title }}
+                                    <div class="card d-flex" data-key="{{ $lesson->id }}">
+                                        <div class="card-body d-flex justify-content-between">
+                                            <span> <strong style="cursor: move">
+                                                    :::
+                                                </strong>
+                                                {{ $lesson->title }}
+                                            </span>
+
+
+
+
+
+
+                                            <div class="">
+                                                <button class="btn btn-primary">view</button>
+                                                <button class="btn btn-success" data-toggle="modal"
+                                                    data-target="#editLessonModal-{{ $lesson->id }}">Edit</button>
+                                                <button class="btn btn-danger">Delete</button>
+                                            </div>
                                         </div>
+
                                     </div>
                                 @endforeach
                             </div>
@@ -226,6 +246,65 @@
 
         </div>
     </div>
+
+
+
+
+
+    @foreach ($sections as $section)
+        @foreach ($section->lessons as $lesson)
+            {{-- edit lesson --}}
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                id="editLessonModal-{{ $lesson->id }}" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myLargeModalLabel">update lesson</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                    <line x1="18" y1="6" x2="6" y2="18">
+                                    </line>
+                                    <line x1="6" y1="6" x2="18" y2="18">
+                                    </line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('instructor.update_lesson', $lesson->id) }}" method="post">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    <input type="text" name="title" value="{{ $lesson->title }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="form-group d-flex m-auto">
+                                    <label for="" class="label mr-2">Preview</label>
+                                    <label class="switch s-icons s-outline s-outline-primary mr-2">
+                                        <input type="checkbox" name="is_preview"
+                                            @if ($lesson->is_preview) checked @endif>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
+                                        Discard</button>
+                                    <button type="submit" class="btn btn-primary">update</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- end edit lesson --}}
+        @endforeach
+    @endforeach
 @endsection
 
 @section('js')
@@ -260,6 +339,9 @@
     </script>
     <script>
         var sortable = new Sortable(sections, {
+
+            animation: 200,
+            ghostClass: 'blue-background-class',
             onEnd: function(e) {
                 var items = e.to.children;
                 var result = [];
@@ -300,6 +382,8 @@
 
 
             new Sortable.create(document.getElementById(''.concat('lessons-', id)), {
+                animation: 200,
+                ghostClass: 'blue-background-class',
                 onEnd: function(e) {
                     var items = e.to.children;
                     console.log(items);

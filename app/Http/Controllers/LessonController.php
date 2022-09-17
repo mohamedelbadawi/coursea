@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addLessonRequest;
+use App\Http\Requests\updateLessonRequest;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Section;
@@ -12,6 +13,7 @@ use App\traits\MediaTrait;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\FuncCall;
 
 class LessonController extends Controller
 {
@@ -50,5 +52,17 @@ class LessonController extends Controller
 
             $this->lessonRepository->update(['order' => $key + 1], $lesson);
         }
+    }
+
+    public function updateLesson(updateLessonRequest $request, $id)
+    {
+        // try {
+        $data = $request->except('_token');
+        dd($data);
+        $this->lessonRepository->update($data, $lesson);
+        return back()->with(['success' => 'lesson update successfully']);
+        // } catch (Exception $e) {
+        //     return back()->with(['error' => $e->getMessage()]);
+        // }
     }
 }

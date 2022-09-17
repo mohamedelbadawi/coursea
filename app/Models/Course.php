@@ -33,4 +33,9 @@ class Course extends Model
     {
         return $this->belongsTo(Instructor::class);
     }
+
+    public function previewedLessons()
+    {
+        return $this->hasMany(Lesson::class)->preview();
+    }
 }

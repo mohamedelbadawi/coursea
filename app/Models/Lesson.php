@@ -23,4 +23,8 @@ class Lesson extends Model
     {
         return $this->morphOne(Media::class, 'medial');
     }
+    public function scopePreview($query)
+    {
+        return $query->where('is_preview', true);
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorDashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Auth;
@@ -26,10 +27,10 @@ use Intervention\Image\Gd\Commands\RotateCommand;
 Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 Route::get('/courses', [HomeController::class, 'courses'])->name('courses_page');
 Route::get('/courses/course/{course}', [HomeController::class, 'viewCourse'])->name('course.view');
-
+// Route::get('/')
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/payments/verify/{payment?}', [HomeController::class, 'payment_verify'])->name('payment-verify');
 Auth::routes();
 
 
@@ -74,4 +75,6 @@ Route::group(['middleware' => ['auth:instructor']], function () {
 
 Route::prefix('student')->middleware('auth')->group(function () {
     Route::get('/home', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::post('/credit/payment/{course}', [PaymentController::class, 'creditPayment'])->name('payment.credit');
+    Route::get('/credit/payment/callback', [PaymentController::class, 'creditCallback'])->name('payment.callback');
 });

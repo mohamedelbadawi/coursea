@@ -12,6 +12,7 @@ use App\Repositories\StudentRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Nafezly\Payments\ThawaniPayment;
 
 class HomeController extends Controller
 {
@@ -61,5 +62,15 @@ class HomeController extends Controller
 
         $previewedLessons = $course->previewedLessons()->get();
         return view('singleCourse', compact('course', 'previewedLessons', 'categories', 'relatedCourses'));
+    }
+
+    public function payment_verify()
+    {
+
+        $payment = new PaymobPayment();
+        //pay
+        $payment->pay($order);
+        //verify
+        $payment->verify($request);
     }
 }

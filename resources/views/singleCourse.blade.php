@@ -131,9 +131,12 @@
                         </div>
                         <h5 class="text-white py-3 px-4 m-0">Course Price: {{ $course->price }}</h5>
                         <div class="py-3 px-4">
-                            <a class="btn btn-block btn-secondary py-3 px-5" data-target="#exampleModal"
-                                data-toggle="modal">Enroll
-                                Now</a>
+                            @if (!$purchased)
+                                <a class="btn btn-block btn-secondary py-3 px-5" data-target="#exampleModal"
+                                    data-toggle="modal">Enroll Now</a>
+                            @else
+                                <a class="btn btn-block btn-secondary py-3 px-5">View Course</a>
+                            @endif
                         </div>
                     </div>
 
@@ -172,7 +175,6 @@
     </div>
     <!-- Detail End -->
 
-
     {{-- payment modal --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -192,10 +194,6 @@
                                 height="200px">
                         </a>
                     </form>
-                    <a href="">
-                        <img src="{{ asset('assets/img/voda-cash.png') }}" alt="" width="200px"
-                            height="200px">
-                    </a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

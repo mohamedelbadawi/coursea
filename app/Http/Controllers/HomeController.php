@@ -59,18 +59,11 @@ class HomeController extends Controller
         });
 
         $relatedCourses = $this->courseRepository->getCoursesByCategory($course->category_id, 5);
-
+        if (auth()->check())
+            $purchased = in_array($course->id, auth()->user()->orders->where('status', 'approved')->pluck('course_id')->toArray());
+        else
+            $purchased = false;
         $previewedLessons = $course->previewedLessons()->get();
-        return view('singleCourse', compact('course', 'previewedLessons', 'categories', 'relatedCourses'));
-    }
-
-    public function payment_verify()
-    {
-
-        $payment = new PaymobPayment();
-        //pay
-        $payment->pay($order);
-        //verify
-        $payment->verify($request);
+        return view('singleCourse', compact('purchased', 'course', 'previewedLessons', 'categories', 'relatedCourses'));
     }
 }

@@ -100,7 +100,7 @@
                     </li>
                 </ul>
             @endauth
-           
+
             <ul class="navbar-item flex-row ml-auto nav-dropdowns">
                 <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="user-profile-dropdown"
@@ -110,7 +110,10 @@
                                 <img src="@if (isset(auth()->user()->media->name)) {{ asset('images/instructors/' . auth()->user()->media->name) }} @endif"
                                     class="img-fluid" alt="admin-profile">
                             @endauth
-                            {{-- <img src="{{ asset('assets/img/90x90.jpg') }}" class="img-fluid" alt="admin-profile"> --}}
+                            @auth
+
+                                <img src="{{ asset('assets/img/90x90.jpg') }}" class="img-fluid" alt="admin-profile">
+                            @endauth
                         </div>
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
@@ -160,17 +163,23 @@
                                 </svg> <span>Lock Screen</span>
                             </a>
                         </div>
-                        <div class="dropdown-item">
-                            <a href="auth_login.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg> <span>Log Out</span>
-                            </a>
-                        </div>
+                        @auth
+                            <div class="dropdown-item">
+                                <form name="studentLogout" action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <a href="javascript: submitform()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-log-out">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                        </svg> <span>Log Out</span>
+                                    </a>
+                                </form>
+                            </div>
+                        @endauth
                     </div>
 
                 </li>
@@ -241,7 +250,11 @@
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/app.js') }}"></script>
-
+        <script type="text/javascript">
+            function submitform() {
+                document.studentLogout.submit();
+            }
+        </script>
         <script>
             $(document).ready(function() {
                 App.init();

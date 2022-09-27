@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class updateLessonRequest extends FormRequest
+class viewCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,10 +13,9 @@ class updateLessonRequest extends FormRequest
      */
     public function authorize()
     {
-        if ($this->lesson->course->instructor_id == auth()->id()) {
+        if (in_array($this->course->id, auth()->user()->courses->pluck('id')->toArray())) {
             return true;
         }
-
         return false;
     }
 
@@ -27,10 +26,8 @@ class updateLessonRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
-            'title' => 'required',
-            'is_preview' => 'nullable'
+            //
         ];
     }
 }

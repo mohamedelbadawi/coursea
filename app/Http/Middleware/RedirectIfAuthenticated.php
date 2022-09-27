@@ -21,11 +21,16 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
+        foreach ($guards as $guard) {
 
-        if (Auth::guard('instructor')->check()) {
-            return redirect(RouteServiceProvider::INSTRUCTOR_HOME);
+            if ($guard == "instructor" && Auth::guard($guard)->check()) {
+                return redirect(RouteServiceProvider::INSTRUCTOR_HOME);
+            }
+
+            if (Auth::guard($guard)->check()) {
+                return redirect(RouteServiceProvider::HOME);
+            }
         }
-
         return $next($request);
     }
 }

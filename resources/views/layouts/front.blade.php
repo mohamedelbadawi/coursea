@@ -25,7 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('front/css/style.css') }}" rel="stylesheet">
-    
+
 </head>
 
 <body>
@@ -66,7 +66,7 @@
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="{{route('welcome_page')}}" class="navbar-brand ml-lg-3">
+            <a href="{{ route('welcome_page') }}" class="navbar-brand ml-lg-3">
                 <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Coursea</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -74,10 +74,12 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
-                    <a href="{{route('welcome_page')}}" class="nav-item nav-link active">Home</a>
+                    <a href="{{ route('welcome_page') }}" class="nav-item nav-link active">Home</a>
                     {{-- <a href="about.html" class="nav-item nav-link">About</a> --}}
-                    <a href="{{route('courses_page')}}" class="nav-item nav-link">Courses</a>
-                    <a href="{{route('login')}}" class="nav-item nav-link">Login</a>
+                    <a href="{{ route('courses_page') }}" class="nav-item nav-link">Courses</a>
+                    @guest
+                        <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
+                    @endguest
                     {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
@@ -105,7 +107,7 @@
         <div class="container mt-5 pt-5">
             <div class="row">
                 <div class="col-md-6 mb-5">
-                    <a href="{{route('welcome_page')}}" class="navbar-brand">
+                    <a href="{{ route('welcome_page') }}" class="navbar-brand">
                         <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>Coursea</h1>
                     </a>
                     <p class="m-0">Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem at et diam est,

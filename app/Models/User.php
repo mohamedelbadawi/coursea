@@ -47,4 +47,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class);
+    }
 }

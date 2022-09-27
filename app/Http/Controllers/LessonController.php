@@ -54,15 +54,21 @@ class LessonController extends Controller
         }
     }
 
-    public function updateLesson(updateLessonRequest $request, $id)
+    public function updateLesson(updateLessonRequest $request, Lesson $lesson)
     {
-        // try {
-        $data = $request->except('_token');
-        dd($data);
-        $this->lessonRepository->update($data, $lesson);
-        return back()->with(['success' => 'lesson update successfully']);
-        // } catch (Exception $e) {
-        //     return back()->with(['error' => $e->getMessage()]);
-        // }
+        try {
+            $data = $request->except('_token');
+            $data['is_preview'] = $request->is_preview == 'on' ? true : false;
+            $this->lessonRepository->update($data, $lesson);
+            return back()->with(['success' => 'lesson update successfully']);
+        } catch (Exception $e) {
+            return back()->with(['error' => $e->getMessage()]);
+        }
+    }
+
+
+    public function viewLesson(Lesson $lesson)
+    {
+        return view('instructor.viewLesson', compact('lesson'));
     }
 }

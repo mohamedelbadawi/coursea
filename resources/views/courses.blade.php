@@ -64,7 +64,10 @@
 
                 <div class="col-12">
                     <nav aria-label="Page navigation">
-                        {!! $course->links !!}
+                        {{-- @if($courses) --}}
+                        {!! $courses->links() !!}
+                        {{-- @endif
+                             --}}
                     </nav>
                 </div>
             </div>

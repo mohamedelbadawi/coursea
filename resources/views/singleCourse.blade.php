@@ -47,6 +47,20 @@
                             src="{{ asset('images/courses/' . $course->header_image) }}" alt="Image">
                         <p>{{ $course->description }}</p>
                     </div>
+                    <div class="mt-2 mb-2">
+                        <h3>Preview lessons</h3>
+                        @foreach ($previewedLessons as $lesson)
+                            <div class="card p-3 mb-1 bg-primary text-light  ">
+                                <div class="chard-body d-flex justify-content-between">
+                                    {{ $lesson->title }}
+                                    <a href="" data-toggle="modal" data-target="#modal-{{ $lesson->media->id }}">
+                                        <i class="fas fa-play text-light"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+
+                    </div>
 
                     <h2 class="mb-3">Related Courses</h2>
                     <div class="owl-carousel related-carousel position-relative" style="padding: 0 30px;">
@@ -130,9 +144,16 @@
                                     <span class="badge badge-primary badge-pill">{{ $category->courses_count }}</span>
                                 </li>
                             @endforeach
-
                         </ul>
                     </div>
+
+
+
+
+
+
+
+
 
                     <div class="mb-5">
 
@@ -143,7 +164,8 @@
                                 <div class="pl-3">
                                     <h6>{{ $course->title }}</h6>
                                     <div class="d-flex">
-                                        <small class="text-body mr-3"><i class="fa fa-user text-primary mr-2"></i>{{$course->instructor->name}}</small>
+                                        <small class="text-body mr-3"><i
+                                                class="fa fa-user text-primary mr-2"></i>{{ $course->instructor->name }}</small>
                                         <small class="text-body"><i class="fa fa-star text-primary mr-2"></i>4.5
                                             (250)
                                         </small>
@@ -157,4 +179,41 @@
         </div>
     </div>
     <!-- Detail End -->
+
+
+
+
+
+
+
+
+
+    {{-- video modal --}}
+    @foreach ($previewedLessons as $lesson)
+        <div class="modal fade" id="modal-{{ $lesson->media->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{$lesson->name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="Geeks3" width="450" height="350"
+                            src="https://coursea.s3.amazonaws.com/{{ $lesson->media->name }}" frameborder="0"
+                            allowfullscreen>
+                        </iframe>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- end video modal --}}
 @endsection

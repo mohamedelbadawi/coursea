@@ -11,6 +11,7 @@ use App\Repositories\Eloquent\InstructorRepository;
 use App\Repositories\Eloquent\LessonRepository as EloquentLessonRepository;
 use App\Repositories\Eloquent\MediaRepository as EloquentMediaRepository;
 use App\Repositories\Eloquent\NoteRepository;
+use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\SectionRepository;
 use App\Repositories\Eloquent\StudentRepository;
 use App\Repositories\EloquentRepositoryInterface;
@@ -20,6 +21,7 @@ use App\Repositories\LessonRepositoryInterface;
 use App\Repositories\MediaRepository;
 use App\Repositories\MediaRepositoryInterface;
 use App\Repositories\NoteRepositoryInterface;
+use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\SectionRepositoryInterface;
 use App\Repositories\StudentRepositoryInterface;
 use App\Services\AuthService;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(LessonRepositoryInterface::class, EloquentLessonRepository::class);
         $this->app->bind(MediaRepositoryInterface::class, EloquentMediaRepository::class);
         $this->app->bind(StudentRepositoryInterface::class, StudentRepository::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
     }
 
     /**

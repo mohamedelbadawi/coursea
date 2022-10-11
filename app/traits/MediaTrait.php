@@ -31,10 +31,7 @@ trait MediaTrait
     function uploadToS3($title, $file)
     {
         try {
-
-
             $filename = str_replace(' ', '', $title) . '_' . time() . '_' . '.' . $file->getClientOriginalExtension();
-
             $disk = Storage::disk('s3');
             $disk->put($filename, fopen($file, 'r+'));
             return $filename;

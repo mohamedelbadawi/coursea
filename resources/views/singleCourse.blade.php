@@ -131,7 +131,9 @@
                         </div>
                         <h5 class="text-white py-3 px-4 m-0">Course Price: {{ $course->price }}</h5>
                         <div class="py-3 px-4">
-                            <a class="btn btn-block btn-secondary py-3 px-5" href="">Enroll Now</a>
+                            <a class="btn btn-block btn-secondary py-3 px-5" data-target="#exampleModal"
+                                data-toggle="modal">Enroll
+                                Now</a>
                         </div>
                     </div>
 
@@ -146,17 +148,7 @@
                             @endforeach
                         </ul>
                     </div>
-
-
-
-
-
-
-
-
-
                     <div class="mb-5">
-
                         <h2 class="mb-4">Recent Courses</h2>
                         @foreach ($relatedCourses as $course)
                             <a class="d-flex align-items-center text-decoration-none mb-4" href="">
@@ -181,9 +173,37 @@
     <!-- Detail End -->
 
 
-
-
-
+    {{-- payment modal --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Payments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="myform" action="{{ route('payment.credit', $course->id) }}" method="post">
+                        @csrf
+                        <a href="javascript: submitform()">
+                            <img src="{{ asset('assets/img/master.png') }}" alt="" width="200px"
+                                height="200px">
+                        </a>
+                    </form>
+                    <a href="">
+                        <img src="{{ asset('assets/img/voda-cash.png') }}" alt="" width="200px"
+                            height="200px">
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- end payment modal --}}
 
 
 
@@ -195,7 +215,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{$lesson->name}}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ $lesson->name }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -216,4 +236,12 @@
     @endforeach
 
     {{-- end video modal --}}
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        function submitform() {
+            document.myform.submit();
+        }
+    </script>
 @endsection

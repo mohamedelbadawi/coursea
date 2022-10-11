@@ -50,6 +50,9 @@ Route::group(['prefix' => '/instructor'], function () {
     Route::post('/resetPassword', [InstructorController::class, 'resetPassword'])->name('instructor.resetPassword');
 
     Route::group(['middleware' => 'auth:instructor'], function () {
+        Route::get('/', function () {
+            return redirect()->route('instructor.dashboard');
+        });
 
         Route::get('/dashboard', [InstructorDashboardController::class, 'dashboard'])->name('instructor.dashboard');
         Route::get('/profile/{instructor}', [InstructorController::class, 'instructorProfile'])->name('instructor.profile');
@@ -64,7 +67,8 @@ Route::group(['prefix' => '/instructor'], function () {
         Route::get('/courses/reorder-lessons', [LessonController::class, 'reorderLessons'])->name('instructor.reorder_lessons');
 
         Route::post('/course/add-lesson/', [LessonController::class, 'addLesson'])->name('instructor.upload_lesson');
-        Route::post('/course/update-lesson/{id}', [LessonController::class, 'updateLesson'])->name('instructor.update_lesson');
+        Route::post('/course/update-lesson/{lesson}', [LessonController::class, 'updateLesson'])->name('instructor.update_lesson');
+        Route::get('/course/view-lesson/{lesson}', [LessonController::class, 'viewLesson'])->name('instructor.view_lesson');
     });
 });
 
@@ -76,7 +80,12 @@ Route::group(['middleware' => ['auth:instructor']], function () {
 
 
 Route::prefix('student')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('student.dashboard');
+    });
     Route::get('/home', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::get('/my-learning', [StudentDashboardController::class, 'myLearning'])->name('student.learning');
+    Route::get('/course/{course}', [StudentDashboardController::class, 'viewCourse'])->name('student.view_course');
     Route::post('/credit/payment/{course}', [PaymentController::class, 'creditPayment'])->name('payment.credit');
     Route::get('/credit/payment/callback', [PaymentController::class, 'creditCallback'])->name('payment.callback');
 });

@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Order;
+use App\Repositories\CourseRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
+use App\Repositories\StudentRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Services\Paymob;
 
 class PaymentController extends Controller
 {
-    protected $paymob, $orderRepository;
+    protected $paymob, $orderRepository, $studentRepository;
 
-    public function __construct(Paymob $paymob, OrderRepositoryInterface $orderRepository)
+    public function __construct(Paymob $paymob, OrderRepositoryInterface $orderRepository, StudentRepositoryInterface $studentRepository)
     {
         $this->paymob = $paymob;
         $this->orderRepository = $orderRepository;
+        $this->studentRepository = $studentRepository;
     }
     public function creditPayment(Course $course)
     {
@@ -52,8 +55,10 @@ class PaymentController extends Controller
 
         if ($this->paymob->callback($request)) {
             $order = $this->orderRepository->getOrderByPaymentId($request->order);
-            if ($request->success == "true") {
+            if ($request->success == "false") {
+
                 $this->orderRepository->update($order, ['status' => 'approved']);
+                $this->studentRepository->assignCourse($order->course_id, auth()->user());
                 return redirect()->route('student.dashboard')->with(['success' => 'Course purchased Success']);
             } else {
                 $this->orderRepository->update($order, ['status' => 'canceled']);

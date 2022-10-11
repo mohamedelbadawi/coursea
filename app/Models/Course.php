@@ -36,6 +36,11 @@ class Course extends Model
 
     public function previewedLessons()
     {
-        return $this->hasMany(Lesson::class)->preview();
+        return $this->hasMany(Lesson::class)->preview()->with('media');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'user_id');
     }
 }

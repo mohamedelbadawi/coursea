@@ -77,7 +77,7 @@
                 </svg></a>
 
             <div class="nav-logo align-self-center">
-                <a class="navbar-brand" href="index.html"><img alt="logo" src="{{ asset('assets/img/90x90.jpg') }}">
+                <a class="navbar-brand" href="{{route('welcome_page')}}"><img alt="logo" src="{{ asset('assets/img/90x90.jpg') }}">
                     <span class="navbar-brand-name">Coursea</span></a>
             </div>
             @auth('instructor')
@@ -101,17 +101,38 @@
                 </ul>
             @endauth
 
+
+            @auth('web')
+                <ul class="nav mt-2">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('student.dashboard') }}"> <strong>
+                                <h6>
+                                    Notes
+                                </h6>
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('student.learning') }}"> <strong>
+                                <h6>
+                                    Mylearning
+                                </h6>
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+            @endauth
+
             <ul class="navbar-item flex-row ml-auto nav-dropdowns">
                 <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="user-profile-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="media">
                             @auth('instructor')
-                                <img src="@if (isset(auth()->user()->media->name)) {{ asset('images/instructors/' . auth()->user()->media->name) }} @endif"
+                                <img src="@if (isset(auth()->user()->media->name)) {{ asset('images/instructors/' . auth()->user()->media->name) }} @else{{ asset('assets/img/90x90.jpg') }} @endif"
                                     class="img-fluid" alt="admin-profile">
                             @endauth
-                            @auth
-
+                            @auth('web')
                                 <img src="{{ asset('assets/img/90x90.jpg') }}" class="img-fluid" alt="admin-profile">
                             @endauth
                         </div>

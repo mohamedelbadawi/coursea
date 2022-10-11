@@ -4,8 +4,6 @@
 *.js linguist-detectable=false
 *.scss linguist-detectable=false
 *.blade.php diff=html
-*.css diff=css
-*.html diff=html
 *.md diff=markdown
 *.php diff=php
 

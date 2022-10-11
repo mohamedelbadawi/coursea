@@ -85,4 +85,7 @@ class AuthService
             return $e->getMessage();
         }
     }
+
+    public function redire
+
 }

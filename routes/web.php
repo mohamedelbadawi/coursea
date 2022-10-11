@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstructorController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -78,3 +80,6 @@ Route::prefix('student')->middleware('auth')->group(function () {
     Route::post('/credit/payment/{course}', [PaymentController::class, 'creditPayment'])->name('payment.credit');
     Route::get('/credit/payment/callback', [PaymentController::class, 'creditCallback'])->name('payment.callback');
 });
+
+Route::get('login/github', [SocialLoginController::class, 'redirectToProvider']);
+Route::get('login/github/callback', [SocialLoginController::class, 'handleProviderCallback']);
